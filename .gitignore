@@ -1,5 +1,5 @@
-.venv/
-data/
+﻿.venv/
+/data/
 *.pth
 *.pt
 __pycache__/
