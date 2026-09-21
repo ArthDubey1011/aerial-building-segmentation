@@ -24,7 +24,7 @@ PNGs with values {0, 255}, converted to 0/1. Training crops that are mostly whit
 |---|---|
 | **U-Net** | Encoder-decoder with skip connections: the encoder captures context, the skips restore the fine detail needed for building outlines. Works well with small datasets. |
 | **ImageNet-pretrained ResNet34 encoder** | Only 137 training images. Pretrained edge/texture features transfer to aerial imagery and converge far faster than random init (val IoU 0.31 after epoch 1). |
-| **Random 512x512 crops** | Full images don't fit a batch on a T4; crops are also augmentation (flips, 90Â° rotations, light colour jitter). |
+| **Random 512x512 crops** | Full images don't fit a batch on a T4; crops are also augmentation (flips, 90-degree rotations, light colour jitter). |
 | **BCE+Dice vs Focal+Dice** | Buildings are a minority class. Dice measures overlap directly (like the F1 score), so it counters the dominance of background pixels; BCE / Focal stabilises its gradients. Focal down-weights easy background pixels. |
 | **IoU / Dice pooled over the whole set** | TP/FP/FN are summed over all pixels, then IoU and Dice are computed once. Averaging per batch is biased. |
 | **Tiled inference with overlap + Gaussian blending** | The model expects 512 tiles. Tiles overlap by 128 px and are averaged with a weight that is ~0 at tile edges, so there are no seams (unit-tested: an identity "model" reconstructs the input exactly). |
@@ -62,7 +62,7 @@ Panels: image | ground truth | prediction | errors (green = correct, red = false
 
 ### Failure cases (the two lowest-IoU test images)
 ![](docs/figures/failure_0.png)
-**22828930 (IoU 0.640):** very dense suburb with hundreds of tiny (~120 mÂ², ~10x12 px) houses, many partly under trees.
+**22828930 (IoU 0.640):** very dense suburb with hundreds of tiny (~120 m2, ~10x12 px) houses, many partly under trees.
 At 1 m/pixel a 1-pixel boundary shift on such small objects costs a lot of IoU, and houses hidden by canopy are missed.
 The 2,657 "buildings" counted here is therefore only approximate.
 
