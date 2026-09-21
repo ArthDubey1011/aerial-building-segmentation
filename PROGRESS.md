@@ -26,6 +26,9 @@
 - train.py outputs to results/<name>/: config.yaml, metrics.csv, test_metrics.json, samples/, checkpoints/{best,last}.pth (checkpoints gitignored).
 - Kaggle configs: 40 epochs x 400 crops, batch 8, AMP. Runtime is an estimate (~15 min on T4) -- unverified on GPU.
 
+- Stage 3: notebooks/kaggle_run.md written (REPO_URL_HERE placeholder must be replaced after the GitHub remote exists).
+
 ## Open issues
 - CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
+
 
