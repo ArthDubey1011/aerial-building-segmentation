@@ -1,4 +1,4 @@
-# Kaggle run: copy-paste cells
+﻿# Kaggle run: copy-paste cells
 
 ## One-time notebook setup (right-hand "Session options" panel)
 1. **Accelerator**: GPU T4 x2 (or P100). Only one GPU is used.
@@ -10,7 +10,7 @@
 
 ## Cell 1: clone the repo and install requirements
 ```python
-!git clone REPO_URL_HERE repo
+!git clone https://github.com/ArthDubey1011/urban-growth-satellite.git repo
 %cd repo
 !pip install -q -r requirements.txt
 ```
@@ -55,3 +55,4 @@ for f in sorted(glob.glob("results/kaggle_*/test_metrics.json")):
 ```
 Download `results.zip` from the notebook's **Output** tab (or after "Save & Run All" from the version's Output),
 then extract it into the project's `results/` folder on your laptop.
+
