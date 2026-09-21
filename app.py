@@ -13,26 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import gradio as gr
 
 from src.data.dataset import read_image
-from src.inference.pipeline import analyze_image, load_model
+from src.inference.pipeline import analyze_image, load_model, pick_checkpoint
 from src.train.utils import get_device, load_config
-
-
-def pick_checkpoint(infer_cfg):
-    """Use the trained checkpoint from the config if it exists, otherwise fall back to the debug one.
-    Returns (path, warning_or_None)."""
-    trained = Path(infer_cfg["checkpoint"])
-    if trained.exists():
-        return trained, None
-    # On Hugging Face Spaces the 98 MB checkpoint lives in a model repo and is downloaded at start-up.
-    if infer_cfg.get("hf_repo"):
-        from huggingface_hub import hf_hub_download
-        path = hf_hub_download(repo_id=infer_cfg["hf_repo"], filename=infer_cfg["hf_filename"])
-        return Path(path), None
-    debug = Path(infer_cfg.get("debug_checkpoint") or "")
-    if debug.is_file():
-        return debug, (f"WARNING: trained checkpoint '{trained}' not found. Using the DEBUG checkpoint "
-                       f"(2 tiny epochs), so predictions are essentially meaningless.")
-    raise FileNotFoundError(f"No checkpoint found: '{trained}' or '{debug}'. Run scripts/train.py first.")
 
 
 FAST_SIZE = 1024  # fast mode analyses the centre 1024x1024 crop: ~9 tiles instead of ~16 (matters on free CPU)

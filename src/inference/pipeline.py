@@ -10,6 +10,23 @@ from src.inference.tiling import make_model_predict_fn, predict_tiled
 from src.models.unet import build_model
 
 
+def pick_checkpoint(infer_cfg):
+    """Find the weights to use. Order: local trained checkpoint -> download from the Hugging Face Hub
+    (if hf_repo is set) -> debug checkpoint with a warning. Returns (path, warning_or_None)."""
+    trained = Path(infer_cfg["checkpoint"])
+    if trained.exists():
+        return trained, None
+    if infer_cfg.get("hf_repo"):
+        from huggingface_hub import hf_hub_download  # downloaded once, then cached
+        path = hf_hub_download(repo_id=infer_cfg["hf_repo"], filename=infer_cfg["hf_filename"])
+        return Path(path), None
+    debug = Path(infer_cfg.get("debug_checkpoint") or "")
+    if debug.is_file():
+        return debug, (f"WARNING: trained checkpoint '{trained}' not found. Using the DEBUG checkpoint "
+                       f"(2 tiny epochs), so predictions are essentially meaningless.")
+    raise FileNotFoundError(f"No checkpoint found: '{trained}' or '{debug}'. Run scripts/train.py first.")
+
+
 def load_model(checkpoint, cfg, device):
     """Build the U-Net and load weights saved by train.py (best.pth = weights only).
     encoder_weights=None: no need to download ImageNet weights, the checkpoint already contains everything."""

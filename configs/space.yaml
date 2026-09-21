@@ -1,4 +1,4 @@
-# Config for the Hugging Face Space (CPU). build_space.py replaces HF_USER with your Hugging Face username.
+# Config that loads the pretrained weights from the Hugging Face Hub (used by the optional Space and by anyone who clones the repo).
 model:
   encoder: resnet34
   encoder_weights: null      # weights come from the checkpoint, no ImageNet download needed
@@ -13,6 +13,6 @@ infer:
   heatmap_cell_px: 64
   pixel_size_m: 1.0
   checkpoint: checkpoints/best.pth              # optional local copy; otherwise downloaded from the Hub
-  hf_repo: HF_USER/aerial-building-unet
+  hf_repo: arthdubey/aerial-building-unet
   hf_filename: best.pth
   debug_checkpoint: ""

@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import cv2
 
 from src.data.dataset import IMAGE_SUFFIXES, read_image
-from src.inference.pipeline import analyze_image, load_model
+from src.inference.pipeline import analyze_image, load_model, pick_checkpoint
 from src.train.utils import get_device, load_config
 
 
@@ -43,10 +43,10 @@ def main():
     else:
         if not args.image:
             parser.error("--image is required (unless --debug)")
-        checkpoint = Path(args.checkpoint or infer_cfg["checkpoint"])
+        checkpoint = Path(args.checkpoint) if args.checkpoint else pick_checkpoint(infer_cfg)[0]
         src = Path(args.image)
         image_paths = sorted(p for p in src.iterdir() if p.suffix.lower() in IMAGE_SUFFIXES) if src.is_dir() else [src]
-        out_dir = Path(args.out or Path(cfg["output"]["results_dir"]) / "infer")
+        out_dir = Path(args.out or Path(cfg.get("output", {}).get("results_dir", "results")) / "infer")
 
     model = load_model(checkpoint, cfg, device)
     print(f"device={device} checkpoint={checkpoint} images={len(image_paths)}")

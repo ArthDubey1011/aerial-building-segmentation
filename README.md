@@ -109,16 +109,19 @@ Training resumes with `--resume` if a session stops.
 python scripts/infer.py --config configs/local.yaml --image path\to\image.png
 python app.py --config configs/local.yaml        # Gradio UI at http://127.0.0.1:7860
 ```
-Checkpoints (~98 MB each) are not in git. `infer.checkpoint` in the config points at the trained `best.pth`;
-if it is missing, the app falls back to the debug checkpoint and shows a warning.
+Checkpoints (~98 MB each) are not in git (use the Hugging Face weights above, or train your own). With
+`configs/local.yaml`, `infer.checkpoint` points at your trained `best.pth`; if it is missing, the app falls back to
+the debug checkpoint and shows a warning.
 
-**Publish the demo on Hugging Face Spaces (free CPU):**
+**Run the demo with the pretrained weights (no training needed):** the trained model is published at
+[huggingface.co/arthdubey/aerial-building-unet](https://huggingface.co/arthdubey/aerial-building-unet).
+`configs/space.yaml` downloads it automatically on first use:
 ```powershell
-python scripts/build_space.py --user YOUR_HF_USERNAME        # assembles hf_space/ (git-ignored)
-$env:HF_TOKEN = "hf_..."                                     # write token; never commit it
-python scripts/publish_space.py --user YOUR_HF_USERNAME              # dry run
-python scripts/publish_space.py --user YOUR_HF_USERNAME --publish    # uploads the checkpoint (model repo) + the Space
+python app.py --config configs/space.yaml        # Gradio UI at http://127.0.0.1:7860
+python scripts/infer.py --config configs/space.yaml --image path\to\image.png   # command line (uses the same weights)
 ```
+(A hosted Space is not deployed: Hugging Face now requires a PRO plan for Gradio Spaces on free CPU.
+`scripts/build_space.py` and `scripts/publish_space.py` are kept if you want to publish one.)
 
 **Report (table, curves, panels):** `python scripts/make_report.py --config configs/local.yaml --experiments kaggle_bce_dice kaggle_focal_dice`
 (needs the 10 test pairs in `data/test/images` and `data/test/masks`).
