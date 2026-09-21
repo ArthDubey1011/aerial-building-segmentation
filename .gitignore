@@ -5,3 +5,4 @@ data/
 __pycache__/
 results/**/checkpoints/
 .ipynb_checkpoints/
+results/*_debug/

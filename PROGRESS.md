@@ -1,9 +1,9 @@
-# PROGRESS
+﻿# PROGRESS
 
 ## Stage status
 - [x] Stage 0: Environment setup
 - [x] Stage 1: Data sample
-- [ ] Stage 2: Training pipeline
+- [x] Stage 2: Training pipeline
 - [ ] Stage 3: Kaggle handoff
 - [ ] Stage 4: Inference + demo
 - [ ] Stage 5: Results + README
@@ -22,5 +22,10 @@
   these, but the full dataset has some -> training crops skipped if >50% pure white/black pixels.
 - Configs: local.yaml, kaggle_bce_dice.yaml, kaggle_focal_dice.yaml (same schema; data folders relative to data.root).
 
+- Stage 2 code: src/data/dataset.py, src/models/unet.py, src/losses/losses.py, src/eval/metrics.py, src/eval/visualize.py, src/train/{engine,utils}.py, scripts/train.py. 11 pytest tests pass; python scripts/train.py --config configs/local.yaml --debug runs in ~50 s on CPU and --resume works.
+- train.py outputs to results/<name>/: config.yaml, metrics.csv, test_metrics.json, samples/, checkpoints/{best,last}.pth (checkpoints gitignored).
+- Kaggle configs: 40 epochs x 400 crops, batch 8, AMP. Runtime is an estimate (~15 min on T4) -- unverified on GPU.
+
 ## Open issues
 - CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
+

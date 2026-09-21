@@ -1,5 +1,5 @@
-# Local CPU config: only for --debug runs and tests on the 3-image sample.
-experiment_name: local_debug
+﻿# Local CPU config: only for --debug runs and tests on the 3-image sample.
+experiment_name: local
 seed: 42
 
 data:

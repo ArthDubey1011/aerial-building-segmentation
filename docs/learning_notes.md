@@ -21,3 +21,23 @@ Likely interview questions:
 - Why not just report pixel accuracy for segmentation?
 - How did you convert the masks to binary and why threshold instead of equality?
 - How do you keep the dataset paths portable between laptop and Kaggle?
+
+## Stage 2: Training pipeline
+- **U-Net**: encoder-decoder with skip connections; the encoder downsamples to capture context, the decoder upsamples back to per-pixel predictions, and skips restore fine spatial detail (building edges). Good for small datasets.
+- **Pretrained ResNet34 encoder**: ImageNet features (edges, textures) transfer to aerial imagery and converge much faster with only 137 training images. So input must use ImageNet mean/std normalisation.
+- **Random 512 crops**: 1500x1500 images don't fit in GPU memory at batch size 8; crops also act as augmentation. Crops that are mostly white/black no-data are re-drawn.
+- **Losses**: BCE+Dice vs Focal+Dice. Dice = 1 - 2|P∩T|/(|P|+|T|) computed on the whole batch; it fights class imbalance (buildings ~5-10% of pixels). Focal = BCE*(1-p_t)^gamma down-weights easy background pixels. Losses take logits (BCEWithLogits is more numerically stable than sigmoid+BCE).
+- **Metrics pooled over the dataset**: accumulate TP/FP/FN over all pixels, then IoU=TP/(TP+FP+FN), Dice=2TP/(2TP+FP+FN). Averaging per-batch IoU is biased. Dice >= IoU always; Dice = 2*IoU/(1+IoU).
+- **Validation tiles**: 3x3 grid, last tile shifted to the image edge (small overlap counted twice). Full-image blended inference comes in Stage 4.
+- **Mixed precision** (autocast + GradScaler): fp16 forward is faster on GPU; the scaler stops small gradients underflowing. Losses cast logits to float32.
+- **Checkpointing**: last.pth (full state incl. optimizer/scheduler/scaler) each epoch for resume; best.pth = weights of best val IoU. Test evaluated once, with the best model.
+- **Reproducibility**: seeds for random/numpy/torch; `random` (not numpy) is used for cropping because PyTorch seeds it per DataLoader worker.
+- **Cosine LR schedule** with AdamW (lr 3e-4): smooth decay helps final convergence in short runs.
+
+Likely interview questions:
+- Why Dice + BCE instead of BCE alone? What does Focal add? What are gamma and p_t?
+- Why compute IoU over the whole val set rather than per batch?
+- What does GradScaler do? Why cast logits to float in the loss?
+- Why ImageNet normalisation with a pretrained encoder? Would you freeze the encoder?
+- How does resuming from a checkpoint work, and what must be saved?
+- Why choose the best checkpoint by val IoU and evaluate test only once?

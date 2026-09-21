@@ -1,4 +1,4 @@
-# Kaggle GPU config, experiment 2: Focal + Dice loss. Identical to experiment 1 except the loss + name.
+﻿# Kaggle GPU config, experiment 2: Focal + Dice loss. Identical to experiment 1 except the loss + name.
 experiment_name: kaggle_focal_dice
 seed: 42
 
@@ -25,7 +25,7 @@ loss:
   name: focal_dice
 
 train:
-  epochs: 25
+  epochs: 40                # estimate ~15 min on a T4; check epoch time in the first log lines and adjust
   batch_size: 8
   lr: 0.0003
   num_workers: 2
