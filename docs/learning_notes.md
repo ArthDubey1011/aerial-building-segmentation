@@ -41,3 +41,19 @@ Likely interview questions:
 - Why ImageNet normalisation with a pretrained encoder? Would you freeze the encoder?
 - How does resuming from a checkpoint work, and what must be saved?
 - Why choose the best checkpoint by val IoU and evaluate test only once?
+
+## Stage 4: Inference and post-processing
+- **Tiled inference**: the model is trained on 512 crops; a 1500x1500 image is split into overlapping 512 tiles (stride 384), predicted in batches, and merged. Reflect-padding (mirror) gives border pixels context without fake black edges.
+- **Blending**: prediction = sum(w*p)/sum(w) with a Gaussian window w (peak at tile centre, ~0 at tile edge). A window that is still large at the tile edge causes a seam where a tile starts contributing (a test caught this at sigma=0.25*tile, so we use 0.15). Test: with an identity "model" the stitched result must equal the input.
+- **Watershed**: threshold -> remove blobs < 30 px -> distance transform (distance of each building pixel to background) -> h-maxima markers (one per building "peak") -> watershed on the inverted distance. Touching buildings meet at a narrow neck = a valley, so the flood separates them. h controls over- vs under-segmentation (bumpy outline -> too many peaks without it).
+- **Stats**: count = number of labels, built-up area % = mask mean, areas in m2 via pixel_size_m (Massachusetts is ~1 m/px).
+- **Density heatmap**: building centroids counted on a 64 px grid, Gaussian-smoothed, bicubic-upsampled, shown with a JET colormap.
+- **Known limits**: watershed struggles with attached row houses (under-split) and complex roofs (over-split); very large images at 97% "built-up" from the debug model show why we always check the checkpoint (app shows a warning if it only has the debug one).
+
+Likely interview questions:
+- Why overlap and Gaussian blending instead of just cutting tiles? What causes seams?
+- Explain watershed with a distance transform. Why h-maxima? What fails with connected rows of houses?
+- How do you unit-test the stitching without a trained model?
+- Why does the debug model report 97% built-up area?
+- How would you convert pixels to real-world area? What would change for another dataset?
+- How would you evaluate the instance count (not just the mask)?

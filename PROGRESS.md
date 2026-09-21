@@ -4,8 +4,8 @@
 - [x] Stage 0: Environment setup
 - [x] Stage 1: Data sample
 - [x] Stage 2: Training pipeline
-- [ ] Stage 3: Kaggle handoff
-- [ ] Stage 4: Inference + demo
+- [~] Stage 3: Kaggle handoff (notebook written; GitHub repo NOT created/pushed yet, see open issues)
+- [x] Stage 4: Inference + demo (code done + tested locally; not pushed yet)
 - [ ] Stage 5: Results + README
 
 ## Key decisions
@@ -28,7 +28,12 @@
 
 - Stage 3: notebooks/kaggle_run.md written (REPO_URL_HERE placeholder must be replaced after the GitHub remote exists).
 
+- Stage 4 code: src/inference/{tiling,postprocess,render,pipeline}.py, scripts/infer.py, app.py, tests/test_inference.py (23 tests total pass). infer.py and app.py both have working --debug modes.
+- Infer config keys live under infer: (threshold, min_building_area_px, watershed_h, heatmap_cell_px, pixel_size_m, checkpoint, debug_checkpoint).
+
 ## Open issues
+- GitHub repo creation via gh repo create --public was blocked by the permission classifier. The user must create/allow it (or create an empty public repo and give the URL). Then: add remote, push, replace REPO_URL_HERE in notebooks/kaggle_run.md.
 - CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
+
 
 

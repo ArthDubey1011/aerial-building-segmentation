@@ -35,6 +35,12 @@ train:
 infer:
   tile_size: 512
   overlap: 128
+  threshold: 0.5            # probability -> building mask
+  min_building_area_px: 30  # drop connected blobs smaller than this (noise)
+  watershed_h: 2.0          # h-maxima prominence (px of distance): higher = fewer splits of touching buildings
+  heatmap_cell_px: 64       # grid cell size for the building-density heatmap
+  pixel_size_m: 1.0         # ground resolution (Massachusetts: ~1 m/pixel) for area in m2
 
 output:
   results_dir: results
+
