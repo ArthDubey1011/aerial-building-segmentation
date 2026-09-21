@@ -1,0 +1,41 @@
+# Local CPU config: only for --debug runs and tests on the 3-image sample.
+experiment_name: local_debug
+seed: 42
+
+data:
+  root: data/sample
+  # Folders below are relative to root. Sample has no train/val split, so all splits reuse the same folder.
+  train_images: images
+  train_masks: masks
+  val_images: images
+  val_masks: masks
+  test_images: images
+  test_masks: masks
+  mask_threshold: 127       # masks are 3-channel PNG with values {0,255}; channel 0 > 127 -> building
+  blank_max_fraction: 0.5   # skip a training crop if >50% of its pixels are pure white/black (no-data)
+  crop_size: 512
+  crops_per_epoch: 8        # random crops drawn per epoch
+  max_resample_tries: 10
+
+model:
+  encoder: resnet34
+  encoder_weights: imagenet   # first run downloads ~85 MB
+  classes: 1
+
+loss:
+  name: bce_dice              # bce_dice | focal_dice
+
+train:
+  epochs: 2
+  batch_size: 2
+  lr: 0.0003
+  num_workers: 0
+  mixed_precision: false      # only helps on CUDA
+  threshold: 0.5              # prob -> binary mask when computing metrics
+
+infer:
+  tile_size: 512
+  overlap: 128
+
+output:
+  results_dir: results

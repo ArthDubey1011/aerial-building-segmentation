@@ -2,7 +2,7 @@
 
 ## Stage status
 - [x] Stage 0: Environment setup
-- [ ] Stage 1: Data sample
+- [x] Stage 1: Data sample
 - [ ] Stage 2: Training pipeline
 - [ ] Stage 3: Kaggle handoff
 - [ ] Stage 4: Inference + demo
@@ -14,6 +14,13 @@
 - Local torch is 2.14.0+cpu. requirements.txt deliberately excludes torch/torchvision (Kaggle has GPU torch).
 - segmentation-models-pytorch 0.5.0.
 
+- Dataset: Kaggle `balraj98/massachusetts-buildings-dataset` (auth via `~/.kaggle/access_token`, new-style token string).
+  Kaggle path: `/kaggle/input/massachusetts-buildings-dataset/png/{train,train_labels,val,val_labels,test,test_labels}`.
+  Image and mask files share the same name (e.g. `22678915_15.png`).
+- Images: 1500x1500 RGB uint8. Masks: 1500x1500x3 uint8 with values {0,255} -> binary = channel 0 > 127.
+- Sample (data/sample/): train images 22678915_15, 22678930_15, 22678945_15 (building fraction 5-10%). No blank regions in
+  these, but the full dataset has some -> training crops skipped if >50% pure white/black pixels.
+- Configs: local.yaml, kaggle_bce_dice.yaml, kaggle_focal_dice.yaml (same schema; data folders relative to data.root).
+
 ## Open issues
 - CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
-- Stage 1 needs the Kaggle API token at `%USERPROFILE%\.kaggle\kaggle.json` (not checked yet).

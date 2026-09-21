@@ -1,0 +1,41 @@
+# Kaggle GPU config, experiment 1: BCE + Dice loss.
+# Dataset: https://www.kaggle.com/datasets/balraj98/massachusetts-buildings-dataset (attach via "Add Input")
+experiment_name: kaggle_bce_dice
+seed: 42
+
+data:
+  root: /kaggle/input/massachusetts-buildings-dataset/png
+  train_images: train
+  train_masks: train_labels
+  val_images: val
+  val_masks: val_labels
+  test_images: test
+  test_masks: test_labels
+  mask_threshold: 127
+  blank_max_fraction: 0.5
+  crop_size: 512
+  crops_per_epoch: 400      # 137 train images -> ~3 random crops per image per epoch
+  max_resample_tries: 10
+
+model:
+  encoder: resnet34
+  encoder_weights: imagenet
+  classes: 1
+
+loss:
+  name: bce_dice
+
+train:
+  epochs: 25                # tune so a run takes ~15-20 min on a T4
+  batch_size: 8
+  lr: 0.0003
+  num_workers: 2
+  mixed_precision: true
+  threshold: 0.5
+
+infer:
+  tile_size: 512
+  overlap: 128
+
+output:
+  results_dir: results
