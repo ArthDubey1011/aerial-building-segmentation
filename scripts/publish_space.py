@@ -31,7 +31,7 @@ in aerial images at ~1 m/pixel. Weights only (`best.pth`, state dict); build the
 - Test (full images, tiled inference): IoU 0.695, Dice 0.820 (Focal+Dice: 0.690 / 0.817, effectively a tie).
 - Limitations: one region only, no cross-city evaluation; 1 m/pixel imagery; single image, no change detection.
 
-Code, training and failure analysis: https://github.com/ArthDubey1011/urban-growth-satellite
+Code, training and failure analysis: https://github.com/ArthDubey1011/aerial-building-segmentation
 """
 
 

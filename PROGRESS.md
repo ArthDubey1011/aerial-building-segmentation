@@ -34,7 +34,7 @@
 - Kaggle run done (kernel arthdubey1011/urban-growth-unet-training v3, ~20 min per experiment). Test IoU/Dice full-image: BCE+Dice 0.6950/0.8201, Focal+Dice 0.6903/0.8168 (tie within noise). Results extracted into results/; test pairs in data/test/ (gitignored).
 
 ## Open issues
-- GitHub repo: https://github.com/ArthDubey1011/urban-growth-satellite.git (branch master, public). Waiting for Kaggle results.zip -> extract into results/ -> Stage 5.
+- GitHub repo: https://github.com/ArthDubey1011/aerial-building-segmentation.git (branch master, public). All stages done; weights on Hugging Face (arthdubey/aerial-building-unet); hosted Space skipped (needs HF PRO).
 
 
 

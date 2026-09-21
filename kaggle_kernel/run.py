@@ -6,7 +6,7 @@ import os
 import subprocess
 import traceback
 
-REPO = "https://github.com/ArthDubey1011/urban-growth-satellite.git"
+REPO = "https://github.com/ArthDubey1011/aerial-building-segmentation.git"
 LOG = "/kaggle/working/run_log.txt"
 
 

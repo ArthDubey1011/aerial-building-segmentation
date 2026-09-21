@@ -10,7 +10,7 @@
 
 ## Cell 1: clone the repo and install requirements
 ```python
-!git clone https://github.com/ArthDubey1011/urban-growth-satellite.git repo
+!git clone https://github.com/ArthDubey1011/aerial-building-segmentation.git repo
 %cd repo
 !pip install -q -r requirements.txt
 ```
