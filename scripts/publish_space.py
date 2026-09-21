@@ -55,12 +55,15 @@ def main():
     if not args.publish:
         print("Dry run only. Re-run with --publish to upload.")
         return
-    token = os.environ.get("HF_TOKEN")
-    if not token:
-        sys.exit("HF_TOKEN is not set.")
-
     from huggingface_hub import HfApi
-    api = HfApi(token=token)
+    # token=None -> huggingface_hub uses $env:HF_TOKEN if set, else the cached login (~/.cache/huggingface/token).
+    api = HfApi(token=os.environ.get("HF_TOKEN"))
+    try:
+        who = api.whoami()["name"]
+    except Exception as e:
+        sys.exit(f"No valid Hugging Face token found (set HF_TOKEN or save one in the cache): {e}")
+    if who != args.user:
+        sys.exit(f"Logged in as '{who}' but --user is '{args.user}'.")
     api.create_repo(model_id, repo_type="model", private=args.private, exist_ok=True)
     api.upload_file(path_or_fileobj=str(ckpt), path_in_repo="best.pth", repo_id=model_id)
     api.upload_file(path_or_fileobj=MODEL_CARD.encode("utf-8"), path_in_repo="README.md", repo_id=model_id)
