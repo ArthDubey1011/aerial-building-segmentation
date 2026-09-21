@@ -1,7 +1,11 @@
-﻿# Urban Growth Monitoring from Aerial Imagery
+﻿# Aerial Building Segmentation & Density Mapping
 
 Building segmentation with a U-Net, plus a full-image pipeline that counts buildings, measures built-up area
 and draws a building-density heatmap. Trained and evaluated on the Massachusetts Buildings dataset.
+
+> **Scope:** this analyses a *single* image at a time. The motivating goal is urban growth monitoring, but
+> detecting growth needs before/after image pairs (change detection), which is **not built yet**. It is listed
+> under Future work (LEVIR-CD).
 
 | Predicted mask (1500x1500 aerial image) | Individual buildings (watershed) | Density heatmap |
 |---|---|---|

@@ -43,7 +43,7 @@ def build_app(cfg):
         return (result["mask_overlay"], result["instance_overlay"], result["heatmap_overlay"],
                 s["building_count"], round(s["built_up_area_pct"], 2))
 
-    with gr.Blocks(title="Urban Growth Monitor") as demo:
+    with gr.Blocks(title="Aerial Building Segmentation") as demo:
         gr.Markdown("# Building detection from aerial imagery\n"
                     "U-Net (ResNet34 encoder) with tiled inference, watershed building separation and a density heatmap.")
         if warning:
