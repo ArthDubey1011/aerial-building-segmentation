@@ -6,7 +6,7 @@
 - [x] Stage 2: Training pipeline
 - [x] Stage 3: Kaggle handoff (repo pushed; waiting for user to run Kaggle)
 - [x] Stage 4: Inference + demo (pushed)
-- [ ] Stage 5: Results + README
+- [x] Stage 5: Results + README (README, report, figures done)
 
 ## Key decisions
 - Venv uses Python 3.12.6 (`py -3.12 -m venv .venv`) because the default `python` is 3.13.5, outside the 3.10-3.12 range.
@@ -31,9 +31,12 @@
 - Stage 4 code: src/inference/{tiling,postprocess,render,pipeline}.py, scripts/infer.py, app.py, tests/test_inference.py (23 tests total pass). infer.py and app.py both have working --debug modes.
 - Infer config keys live under infer: (threshold, min_building_area_px, watershed_h, heatmap_cell_px, pixel_size_m, checkpoint, debug_checkpoint).
 
+- Kaggle run done (kernel arthdubey1011/urban-growth-unet-training v3, ~20 min per experiment). Test IoU/Dice full-image: BCE+Dice 0.6950/0.8201, Focal+Dice 0.6903/0.8168 (tie within noise). Results extracted into results/; test pairs in data/test/ (gitignored).
+
 ## Open issues
 - GitHub repo: https://github.com/ArthDubey1011/urban-growth-satellite.git (branch master, public). Waiting for Kaggle results.zip -> extract into results/ -> Stage 5.
 - CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
+
 
 
 

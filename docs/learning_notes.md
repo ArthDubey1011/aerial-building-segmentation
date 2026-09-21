@@ -57,3 +57,13 @@ Likely interview questions:
 - Why does the debug model report 97% built-up area?
 - How would you convert pixels to real-world area? What would change for another dataset?
 - How would you evaluate the instance count (not just the mask)?
+
+## Stage 5: Results
+- **Reporting honestly**: BCE+Dice (test IoU 0.695 full-image) vs Focal+Dice (0.690) differ by 0.005 with one seed and 10 test images: a tie, not a win. Say so; offer multiple seeds as the way to settle it.
+- **Tile vs full-image metrics**: the tile metric double-counts a few overlap pixels; full-image blended inference is the metric a user experiences (they differ by only ~0.004).
+- **Test > val IoU** is plausible: only 4 val images with different scenes; test was never used for tuning (best checkpoint chosen on val).
+- **Failure analysis**: dense small houses under trees (1 px boundary shift = big IoU loss at 1 m/px), large border buildings missed, 1-2 px label/prediction offsets. Instance counts were never validated against ground-truth instances: only the mask is.
+- **Real bug**: `.gitignore` `data/` also ignored `src/data/`, so the first Kaggle run failed (ModuleNotFoundError). Fix: `/data/`; verify with a fresh clone + pytest.
+- **Kaggle via CLI**: `kaggle kernels push` runs a script kernel with GPU; datasets may mount at `/kaggle/input/<slug>` or `/kaggle/input/datasets/<owner>/<slug>`, so the script auto-detects the data root.
+
+Likely interview questions: see docs/interview_selfcheck.md.
