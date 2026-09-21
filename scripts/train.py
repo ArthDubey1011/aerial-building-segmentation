@@ -40,9 +40,12 @@ def main():
     parser.add_argument("--config", required=True)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--resume", action="store_true", help="continue from results/<name>/checkpoints/last.pth")
+    parser.add_argument("--data-root", help="override data.root from the config (Kaggle mounts datasets at varying paths)")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
+    if args.data_root:
+        cfg["data"]["root"] = args.data_root
     if args.debug:
         cfg = apply_debug_overrides(cfg)
     set_seed(cfg["seed"])

@@ -6,3 +6,4 @@ __pycache__/
 results/**/checkpoints/
 .ipynb_checkpoints/
 results/*_debug/
+kaggle_out/
