@@ -1,4 +1,4 @@
-﻿# PROGRESS
+# PROGRESS
 
 ## Stage status
 - [x] Stage 0: Environment setup
@@ -35,7 +35,6 @@
 
 ## Open issues
 - GitHub repo: https://github.com/ArthDubey1011/urban-growth-satellite.git (branch master, public). Waiting for Kaggle results.zip -> extract into results/ -> Stage 5.
-- CLAUDE.md and HANDOVER.md were not found on disk in the project folder (they were only provided in chat context). Consider saving them there so a fresh session can read them.
 
 
 

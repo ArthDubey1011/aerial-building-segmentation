@@ -8,3 +8,5 @@ results/**/checkpoints/
 results/*_debug/
 kaggle_out/
 results/report_debug/
+CLAUDE.md
+HANDOVER.md
