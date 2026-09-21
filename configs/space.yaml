@@ -1,0 +1,18 @@
+# Config for the Hugging Face Space (CPU). build_space.py replaces HF_USER with your Hugging Face username.
+model:
+  encoder: resnet34
+  encoder_weights: null      # weights come from the checkpoint, no ImageNet download needed
+  classes: 1
+
+infer:
+  tile_size: 512
+  overlap: 128
+  threshold: 0.5
+  min_building_area_px: 30
+  watershed_h: 2.0
+  heatmap_cell_px: 64
+  pixel_size_m: 1.0
+  checkpoint: checkpoints/best.pth              # optional local copy; otherwise downloaded from the Hub
+  hf_repo: HF_USER/aerial-building-unet
+  hf_filename: best.pth
+  debug_checkpoint: ""

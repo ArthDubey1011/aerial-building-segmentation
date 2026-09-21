@@ -1,0 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+segmentation-models-pytorch
+albumentations
+opencv-python-headless
+scikit-image
+pyyaml
+tqdm
+huggingface_hub

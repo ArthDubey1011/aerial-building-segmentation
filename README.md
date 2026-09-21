@@ -112,6 +112,14 @@ python app.py --config configs/local.yaml        # Gradio UI at http://127.0.0.1
 Checkpoints (~98 MB each) are not in git. `infer.checkpoint` in the config points at the trained `best.pth`;
 if it is missing, the app falls back to the debug checkpoint and shows a warning.
 
+**Publish the demo on Hugging Face Spaces (free CPU):**
+```powershell
+python scripts/build_space.py --user YOUR_HF_USERNAME        # assembles hf_space/ (git-ignored)
+$env:HF_TOKEN = "hf_..."                                     # write token; never commit it
+python scripts/publish_space.py --user YOUR_HF_USERNAME              # dry run
+python scripts/publish_space.py --user YOUR_HF_USERNAME --publish    # uploads the checkpoint (model repo) + the Space
+```
+
 **Report (table, curves, panels):** `python scripts/make_report.py --config configs/local.yaml --experiments kaggle_bce_dice kaggle_focal_dice`
 (needs the 10 test pairs in `data/test/images` and `data/test/masks`).
 
